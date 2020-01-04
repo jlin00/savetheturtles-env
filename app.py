@@ -184,8 +184,8 @@ def create_holdem():
 def dice():
     '''def dice(): allows user to place bet for dice game'''
     user = session['username']
-    money = db_manager.getMoney(user)
     if request.method == 'GET':
+        money = db_manager.getMoney(user)
         return render_template("dice.html", betting=True, money=money)
     else:
         bet = int(request.form['bet'])
@@ -201,9 +201,9 @@ def dice():
             dice.append(roll['value'])
         multiplier = diceH(dice, options)
         amount = multiplier * bet
-        print(amount)
         db_manager.updateMoney(user, amount)
-        return render_template("dice.html", dice=dice, betting=False, money=money)
+        money = db_manager.getMoney(user)
+        return render_template("dice.html", dice=dice, betting=False, money=money, options=options, bet=bet, amount=amount)
 
 def diceH(dice, options):
     '''def diceH(): helper function to check dice rolls'''
@@ -216,16 +216,16 @@ def diceH(dice, options):
     for option in options:
         if option == "big" :
             if sum >= 11 and sum <= 17:
-                total_mult += 1
+                total_mult += 2
         elif option == "small":
             if sum <= 10 and sum >= 4:
-                total_mult += 1
-        elif "trip" in option:
+                total_mult += 2
+        elif "triple" in option:
             num = option[-1]
             if dice[0] == num and dice[1] == num and dice[2] == num:
                 total_mult += 180
         else:
-            num = int(option)
+            num = int(option[-1])
             if sum == num:
                 total_mult += multiplier[num - 4]
     total_mult -= len(options)
