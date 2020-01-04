@@ -1,7 +1,7 @@
 from flask import Flask , render_template,request, redirect, url_for, session, flash
 from functools import wraps
 import sqlite3, os
-from utl import db_builder, db_manager
+from utl import db_builder, db_manager,cards_api
 import urllib3, json, urllib
 import random
 
@@ -135,6 +135,48 @@ def password():
 #====================================================
 #WORK HERE KIRAN
 
+@app.route("/holdem")
+@login_required
+def holdem():
+    ''' def holdem(): renders texas holdem game selector for players who have not joined a game, renders game for players in a game '''
+    game_id = db_manager.current_game(session['username'])
+    if(game_id):
+        # if game id exists, then the user is in a game and said game should be rendered
+        return render_template("holdem_game.html")
+    else:
+        # if game id is 0, then the game selection page should be rendered
+
+        return render_template("holdem_lobby.html")
+    return 'yikes'
+
+@app.route("/holdem/join",methods=['GET'])
+@login_required
+def join_holdemgame():
+    if not 'game_id' in request.args or request.args['game_id'] == '':
+        flash('please choose a game to join!','alert-danger')
+        return redirect(url_for('holdem'))
+    game_id = request.args['game_id']
+    cards = cards_api.drawcards(game_id,2)
+    db_manager.addplayer(game_id,username,cards)
+    flash('You [{}] have successfully joined game {}'.format(username,game_id),'alert-success')
+    return redirect(url_for('holdem'))
+
+
+@app.route("/holdem/create")
+@login_required
+def create_holdem():
+    ''' def create_holdem(): create a new texas holdem game '''
+    game_id = cards_api.newdeck()
+    # add 'board' player to game
+    board_cards = cards_api.drawcards(game_id,5)
+    db_manager.addplayer(game_id,'board',board_cards)
+    #add first player to game
+    player_cards = cards_api.drawcards(game_id,2)
+    db_manager.addplayer(game_id,session['username'],player_cards)
+
+    flash('game successfully created.','alert-success')
+
+    return redirect(url_for('holdem'))
 #====================================================
 #WORK HERE JACKIE
 @app.route("/dice", methods=["GET", "POST"])
