@@ -188,9 +188,10 @@ def dice():
     if request.method == 'GET':
         return render_template("dice.html", betting=True, money=money)
     else:
-        bet = request.form['bet']
+        bet = int(request.form['bet'])
         options = request.form.getlist('options')
-        if bet == "" or len(options) == 0 or not db_manager.checkBet(user, int(bet)):
+        print(db_manager.checkBet(user, bet))
+        if len(options) == 0 or not db_manager.checkBet(user, bet):
             flash("Please enter a valid bet and choose at least one betting option!", 'alert-danger')
             return redirect(url_for("dice"), code=303)
         u = urllib.request.urlopen("http://roll.diceapi.com/json/3d6")
@@ -199,6 +200,9 @@ def dice():
         for roll in response:
             dice.append(roll['value'])
         multiplier = diceH(dice, options)
+        amount = multiplier * bet
+        print(amount)
+        db_manager.updateMoney(user, amount)
         return render_template("dice.html", dice=dice, betting=False, money=money)
 
 def diceH(dice, options):

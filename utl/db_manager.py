@@ -67,7 +67,7 @@ def current_game(username):
 def addplayer(game_id,name,cards):
     ''' def addplayer(game_id,name,cards): adds player with game_id specified and with list of cards to texas tbl database '''
     q = """
-INSERT INTO texas_tbl 
+INSERT INTO texas_tbl
     (game_id,player,bet,folded,card1,card2,card3,card4,card5)
     VALUES(?, ?, 0, 0, ?, ?, ?, ?, ?);
 """
@@ -82,19 +82,22 @@ INSERT INTO texas_tbl
 #====================================================
 #WORK HERE JACKIE
 def getMoney(username):
-    '''def getMoney(username): get user's money'''
-    q = "SELECT money FROM user_tbl WHERE username=?"
+    '''def getMoney(username): get current amount of money of user in session'''
+    q = "SELECT money from user_tbl WHERE username=?"
     inputs = (username, )
-    money = execmany(q, inputs).fetchone()[0]
-    return money
+    data = execmany(q, inputs).fetchone()[0]
+    return data
 
 def checkBet(username, bet):
     '''def checkBet(username, bet): check if user is betting a valid amount'''
     money = getMoney(username)
+    bet = int(bet)
     return money >= bet
 
 def updateMoney(username, amount):
     '''def updateMoney(username, amount): updating data table of user in session with new amount'''
     q = "UPDATE user_tbl SET money=? WHERE username=?"
-    inputs(amount, username)
+    money = getMoney(username)
+    amount += money
+    inputs = (amount, username)
     execmany(q, inputs)
