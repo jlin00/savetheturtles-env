@@ -2,6 +2,7 @@ from flask import Flask , render_template,request, redirect, url_for, session, f
 from functools import wraps
 import sqlite3, os
 from utl import db_builder, db_manager
+import urllib3, json, urllib
 import random
 
 app = Flask(__name__)
@@ -136,21 +137,21 @@ def password():
 
 #====================================================
 #WORK HERE JACKIE
-@app.route("/dice")
+@app.route("/dice", methods=["GET", "POST"])
 @login_required
 def dice():
     '''def dice(): allows user to place bet for dice game'''
     user = session['username']
-    return render_template("dice.html", user=user)
-
-@app.route("/diceplay", methods=["POST"])
-@login_required
-def diceplay():
-    '''def diceplay(): handles user bets and allows for dice gameplay'''
-    user = session['username']
-    bet = request.form['bet']
-    return redirect(url_for("dice"))
-
+    if request.method == 'GET':
+        return render_template("dice.html", user=user, dice=['1', '2', '3'])
+    if request.method == 'POST':
+        bet = request.form['bet']
+        u = urllib.request.urlopen("http://roll.diceapi.com/json/3d6")
+        response = json.loads(u.read())['dice']
+        dice = []
+        for roll in response:
+            dice.append(roll['value'])
+        return render_template("dice.html", user=user, dice=dice)
 
 #====================================================
 @app.route("/logout")
