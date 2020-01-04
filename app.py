@@ -142,7 +142,6 @@ def password():
 def dice():
     '''def dice(): allows user to place bet for dice game'''
     user = session['username']
-<<<<<<< HEAD
     if request.method == 'GET':
         return render_template("dice.html", user=user, dice=['1', '2', '3'])
     if request.method == 'POST':
@@ -153,21 +152,12 @@ def dice():
         for roll in response:
             dice.append(roll['value'])
         return render_template("dice.html", user=user, dice=dice)
-=======
     return render_template("dice.html", user=user)
 
-@app.route("/diceplay", methods=["POST"])
-@login_required
-def diceplay():
-    '''def diceplay(): handles user bets and allows for dice gameplay'''
-    user = session['username']
-    bet = request.form['bet']
-    return redirect(url_for("dice"))
 @app.route("/lottery")
 @login_required
 def lotto():
     return render_template("lottery.html")
->>>>>>> b971de05d3326918a55b832b9e0e71c99a2fb976
 
 #====================================================
 @app.route("/logout")
