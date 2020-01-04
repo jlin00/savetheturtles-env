@@ -35,4 +35,26 @@ def addUser(username, password):
 #====================================================
 #WORK HERE KIRAN 
 
+#texas_tbl (
+    #game_id INT,
+    #player TEXT,
+    #card1 TEXT,
+    #card2 TEXT,
+    #card3 TEXT,
+    #card4 TEXT,
+    #card5 TEXT,
+    #bet INT,
+    #folded INT
+#)
+
+def current_game(username):
+    ''' def current_game(username): returns game id of a game the user has already entered, or 0 if they have not entered a game '''
+    q = "SELECT game_id,player FROM texas_tbl WHERE player = ?"
+    v = (username,)
+    data = execmany(q,v).fetchone()
+    print(data)
+    if(data):
+        return data[0]
+    else:
+        return 0
 #====================================================

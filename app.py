@@ -104,7 +104,26 @@ def home():
 
 #====================================================
 #WORK HERE KIRAN
-# testing push privileges
+
+@app.route("/holdem")
+@login_required
+def holdem():
+    ''' def holdem(): renders texas holdem game selector for players who have not joined a game, renders game for players in a game '''
+    game_id = db_manager.current_game(session['username'])
+    if(game_id):
+        # if game id is not 0, then the user is in a game and said game should be rendered
+        return render_template("holdem_game.html")
+    else:
+        # if game id is 0, then the game selection page should be rendered
+        
+        return render_template("holdem_lobby.html")
+    return 'yikes'
+
+@app.route("/holdem/create")
+@login_required
+def create_holdem():
+    ''' def create_holdem(): create a new texas holdem game '''
+    pass
 #====================================================
 
 #====================================================
