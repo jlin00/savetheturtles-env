@@ -44,3 +44,20 @@ def changePass(username, password):
 
 #====================================================
 #WORK HERE JACKIE
+def getMoney(username):
+    '''def getMoney(username): get user's money'''
+    q = "SELECT money FROM user_tbl WHERE username=?"
+    inputs = (username, )
+    money = execmany(q, inputs).fetchone()[0]
+    return money
+
+def checkBet(username, bet):
+    '''def checkBet(username, bet): check if user is betting a valid amount'''
+    money = getMoney(username)
+    return money >= bet
+
+def updateMoney(username, amount):
+    '''def updateMoney(username, amount): updating data table of user in session with new amount'''
+    q = "UPDATE user_tbl SET money=? WHERE username=?"
+    inputs(amount, username)
+    execmany(q, inputs)

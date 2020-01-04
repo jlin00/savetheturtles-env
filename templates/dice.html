@@ -6,18 +6,292 @@
 
 {% block body %}
 <h1>Dice</h1>
-<div class="w-25 p-3">
+<div class="w-100 p-3">
+	<h4 class="text-success">Your Money: ${{ money }}</h4><br>
+	{% if betting %}
   <form action="/dice" method="POST">
     <div class="form-group">
-      <label for="bet">Please place a bet from 100-1000:</label>
-      <input name="bet" type="number" class="form-control" id="bet" value="100" min="100" max="1000">
-    </div>
-    <br>
-    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[0]}}.png" class="w-25">
-    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[1]}}.png" class="w-25">
-    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[2]}}.png" class="w-25">
-    <br><br>
-    <button type="submit" class="btn btn-primary">Roll Dice</button>
-  </form>
+      <label for="bet">Please place a bet from $10 - $1000:</label>
+      <input name="bet" type="number" class="form-control w-25"  min="10" max="1000" id="bet" value={{bet}}>
+    </div><br>
+		<div class="form-check" style="width:85%;" id="options">
+			<h4>Betting Options</h4>
+			<div class="row">
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="small" name="options">
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+						    <h3 class="text-danger">Small</h3>
+								<p>Are numbers 4 to 10</p>
+								<p><small> 1 wins 1 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip1" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Ones</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip2" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Twos</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip3" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Threes</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip4" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Fours</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip5" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Fives</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="trip6" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h5 class="text-danger">Triple</h5>
+								<p>Sixes</p><br>
+								<p><small> 1 wins 180 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="big" name="options" >
+				  <label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+						    <h3 class="text-danger">Big</h3>
+								<p>Are numbers 11 to 17</p>
+								<p><small> 1 wins 1 </small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+			</div>
+			<br>
+			<div class="row" style="width:80%">
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="4" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">4</h1>
+								<p><small>1 wins 60</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="5" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">5</h1>
+								<p><small>1 wins 20</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="6" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">6</h1>
+								<p><small>1 wins 18</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="7" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">7</h1>
+								<p><small>1 wins 12</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="8" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">8</h1>
+								<p><small>1 wins 8</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="9" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">9</h1>
+								<p><small>1 wins 6</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="10" name="options">
+					<label class="form-check-label">
+						<div class="card">
+						  <div class="card-body">
+								<h1 class="text-danger">10</h1>
+								<p><small>1 wins 6</small></p>
+						  </div>
+						</div>
+				  </label>
+				</div>
+			</div>
+			<br>
+			<div class="row" style="width:80%">
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="11" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">11</h1>
+								<p><small>1 wins 6</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="12" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">12</h1>
+								<p><small>1 wins 6</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="13" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">13</h1>
+								<p><small>1 wins 8</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="14" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">14</h1>
+								<p><small>1 wins 12</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="15" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">15</h1>
+								<p><small>1 wins 18</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="16" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">16</h1>
+								<p><small>1 wins 20</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+				<div class="col">
+					<input class="form-check-input" type="checkbox" value="17" name="options">
+					<label class="form-check-label">
+						<div class="card">
+							<div class="card-body">
+								<h1 class="text-danger">17</h1>
+								<p><small>1 wins 60</small></p>
+							</div>
+						</div>
+					</label>
+				</div>
+			</div>
+		</div>
+		<br>
+		<button type="submit" class="btn btn-primary btn-lg">Roll Dice</button>
+		</form>
+		{% else %}
+		<br>
+		<h4>Results: </h4>
+		<form action="/dice" method="GET">
+		<div class="card w-50">
+			<div class="card-body">
+				<img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[0]}}.png" class="w-25">
+				<img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[1]}}.png" class="w-25">
+				<img src="http://roll.diceapi.com/images/poorly-drawn/d6/{{dice[2]}}.png" class="w-25">
+			</div>
+		</div>
+		<br>
+		<button type="submit" class="btn btn-primary btn-lg">Roll Again</button>
+		</form>
+		{% endif %}
 </div>
 {% endblock %}

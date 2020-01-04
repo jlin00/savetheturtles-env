@@ -142,17 +142,49 @@ def password():
 def dice():
     '''def dice(): allows user to place bet for dice game'''
     user = session['username']
+    money = db_manager.getMoney(user)
     if request.method == 'GET':
-        return render_template("dice.html", user=user, dice=['1', '2', '3'])
-    if request.method == 'POST':
+        return render_template("dice.html", betting=True, money=money)
+    else:
         bet = request.form['bet']
+        options = request.form.getlist('options')
+        if bet == "" or len(options) == 0 or not db_manager.checkBet(user, int(bet)):
+            flash("Please enter a valid bet and choose at least one betting option!", 'alert-danger')
+            return redirect(url_for("dice"), code=303)
         u = urllib.request.urlopen("http://roll.diceapi.com/json/3d6")
         response = json.loads(u.read())['dice']
         dice = []
         for roll in response:
             dice.append(roll['value'])
-        return render_template("dice.html", user=user, dice=dice)
-    return render_template("dice.html", user=user)
+        multiplier = diceH(dice, options)
+        return render_template("dice.html", dice=dice, betting=False, money=money)
+
+def diceH(dice, options):
+    '''def diceH(): helper function to check dice rolls'''
+    print(options)
+    multiplier = [60, 20, 18, 12, 8, 6, 6, 6, 6, 8, 12, 18, 20, 60]
+    sum = 0;
+    total_mult = 0
+    for die in dice:
+        sum += int(die)
+    for option in options:
+        if option == "big" :
+            if sum >= 11 and sum <= 17:
+                total_mult += 1
+        elif option == "small":
+            if sum <= 10 and sum >= 4:
+                total_mult += 1
+        elif "trip" in option:
+            num = option[-1]
+            if dice[0] == num and dice[1] == num and dice[2] == num:
+                total_mult += 180
+        else:
+            num = int(option)
+            if sum == num:
+                total_mult += multiplier[num - 4]
+    total_mult -= len(options)
+    print(total_mult)
+    return total_mult
 
 @app.route("/lottery")
 @login_required
