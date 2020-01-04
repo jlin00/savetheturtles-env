@@ -1,4 +1,4 @@
-import urllib3,json
+import urllib3, json
 
 NEWDECK = 'https://deckofcardsapi.com/api/deck/new/shuffle/'
 DRAWCARDS = 'https://deckofcardsapi.com/api/deck/{}/draw/'

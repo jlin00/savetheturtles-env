@@ -256,25 +256,44 @@ def slot():
     if request.args.get('slotbet'):
         bet = request.args.get('slotbet')
         print(bet)
-        if bet == "" or int(bet) < 100:
-            bet = 100
+        if bet == "" or int(bet) < 10:
+            bet = 10
             flash("Please place a bet of $100 or more.", 'alert-danger')
-            return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], win = "No", colour = "yellow")
+            return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], money = 0, colour = "yellow")
         else:
             bet = int(bet)
+            db_manager.updateMoney(session['username'], -bet)
             rand1 = random.choice(slotImages)
             rand2 = random.choice(slotImages)
             rand3 = random.choice(slotImages)
             if rand1 == rand2 and rand2 == rand3:
-                win = rand1
+                if rand1 == "lemon":
+                    db_manager.updateMoney(session['username'], bet)
+                    money = bet
+                if rand1 == "cherry":
+                    db_manager.updateMoney(session['username'], 2 * bet)
+                    money = 2 * bet
+                if rand1 == "clover":
+                    db_manager.updateMoney(session['username'], 3 * bet)
+                    money = 3 * bet
+                if rand1 == "heart":
+                    db_manager.updateMoney(session['username'], 4 * bet)
+                    money = 4 * bet
+                if rand1 == "diamond":
+                    db_manager.updateMoney(session['username'], 5 * bet)
+                    money = 5 * bet
+                if rand1 == "dollars":
+                    db_manager.updateMoney(session['username'], 6 * bet)
+                    money = 6 * bet
                 colour = "red"
             else:
-                win = "No"
+                money = 0
                 colour = "yellow"
-            return render_template("slotmachine.html", primarybet = bet, bet = bet, image1 = dict[rand1], image2 = dict[rand2], image3 = dict[rand3], win = win, colour = colour)
+            return render_template("slotmachine.html", primarybet = bet, bet = bet, image1 = dict[rand1], image2 = dict[rand2], image3 = dict[rand3], money = money, colour = colour)
     else:
-        bet = 100
-        return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], win = "No", colour = "yellow")
+        bet = 10
+        money = 0
+        return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], money = 0, colour = "yellow")
 
 dict = {}
 slotImages = []
