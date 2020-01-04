@@ -177,6 +177,56 @@ def create_holdem():
     flash('game successfully created.','alert-success')
 
     return redirect(url_for('holdem'))
+
+def cardtotal(cards):
+    ''' def cardtotal(cards): calculate blackjack value of list of cards '''
+    total = 0
+    aces = 0
+    for card in cards:
+        if card['value'] == 'ACE':
+            aces += 1
+            total += 11
+        else:
+            try:
+                value = int(card['value'])
+            except ValueError:
+                # face cards will go here!
+                value = 10
+            total += value
+    while total > 21 and aces > 0:
+        total -= 10
+        aces -= 1
+    return total
+        
+@app.route("/blackjack",methods=['GET'])
+@login_required
+def blackjack_bet():
+    return render_template('blackjack.html',mode='bet')
+
+@app.route("/blackjack",methods=['POST'])
+@login_required
+def blackjack():
+    if 'hit' in request.form:
+        game = session['blackjack']
+        
+    elif 'stand' in request.form:
+        game = session['blackjack']
+        game['mode'] = 'end'
+    elif 'bet' in request.form:
+        # initialize a new game
+        game = {}
+        game['bet'] = request.form['bet']
+        game['deck'] = cards_api.newdeck()
+        game['dealer_show'] = False
+        game['dealer_cards'] = cards_api.drawcards(game['deck'],2)
+        game['player_cards'] = cards_api.drawcards(game['deck'],2)
+        game['mode'] = 'play'
+        print(game)
+    else:
+        print("how did we get here?")
+    session['blackjack'] = game
+    return render_template('blackjack.html',mode=game['mode'],game=game)
+
 #====================================================
 #WORK HERE JACKIE
 @app.route("/dice", methods=["GET", "POST"])

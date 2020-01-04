@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% block title %}
+Blackjack
+{% endblock %}
+
+{% block body %}
+<h3>Blackjack</h3>
+
+{% if mode=="bet" %}
+  <form action="/blackjack" method="POST">
+    <div class="form-group">
+      <label for="bet">Please place a bet from 100-1000:</label>
+      <input name="bet" type="number" class="form-control" id="bet" value="100" min="100" max="1000">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Start Game</button>
+  </form>
+{% endif %}
+{% if mode=="play" %}
+  <h6>soon to come: gameplay!</h6>
+{% endif %} 
+{% endblock %}
