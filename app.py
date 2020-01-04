@@ -208,14 +208,19 @@ def blackjack_bet():
 @login_required
 def blackjack():
     if 'hit' in request.form:
+        if not 'blackjack' in session:
+            flash('No active game!','alert-danger')
+            return redirect(url_for('blackjack_bet'))
         game = session['blackjack']
         newcard = cards_api.drawcards(game['deck'],1)
         game['player_cards'] += newcard
         if cardtotal( game['player_cards'] ) > 21:
             flash('Bust!','alert-danger')
             game['mode'] = 'end'
-            db_manager.updateMoney( session['username'], -game['bet'] )
     elif 'stand' in request.form:
+        if not 'blackjack' in session:
+            flash('No active game!','alert-danger')
+            return redirect(url_for('blackjack_bet'))
         game = session['blackjack']
         game['mode'] = 'end'
         player_total = cardtotal( game['player_cards'] )
@@ -227,15 +232,15 @@ def blackjack():
             dealer_total = cardtotal( game['dealer_cards'] )
         if dealer_total > 21:
             flash('Dealer Bust! you win!','alert-success')
-            db_manager.updateMoney( session['username'], game['bet'] )
+            db_manager.updateMoney( session['username'], 2 * game['bet'] )
         elif player_total > dealer_total:
             flash('You Win!','alert-success')
-            db_manager.updateMoney( session['username'], game['bet'] )
+            db_manager.updateMoney( session['username'], 2 * game['bet'] )
         elif player_total == dealer_total:
             flash('Push (tie)','alert-info')
+            db_manager.updateMoney( session['username'], game['bet'] )
         else:
             flash('You lose.','alert-danger')
-            db_manager.updateMoney( session['username'], -game['bet'] )
     elif 'bet' in request.form:
         # initialize a new game
         game = {}
@@ -245,10 +250,16 @@ def blackjack():
         game['dealer_cards'] = cards_api.drawcards(game['deck'],2)
         game['player_cards'] = cards_api.drawcards(game['deck'],2)
         game['mode'] = 'play'
+        db_manager.updateMoney( session['username'], -game['bet'] )
         print(game)
+        flash('Game started. If you refresh or navigate away, your bet of ${} will be lost.'.format(game['bet']),'alert-info')
     else:
         print("how did we get here?")
-    session['blackjack'] = game
+
+    if game['mode'] == 'end':
+        del session['blackjack']
+    else:
+        session['blackjack'] = game
     return render_template('blackjack.html',mode=game['mode'],game=game)
 
 #====================================================
