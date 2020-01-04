@@ -6,8 +6,8 @@ Slot Machine
 
 {% block body %}
 
-<h1> <font color = "blue;"> Slot Machine </h1>
-
+<h1> Slot Machine </h1>
+<h4 class="text-success">Your Money: ${{ bank }}</h4>
 <div class="w-25 p-3">
   <form action = "/slotmachine" method = "GET">
     <label for="slotbet" class="font-weight-bold" style = "color: black;"> Make Your Bet: </label>
@@ -15,32 +15,7 @@ Slot Machine
     <button type="submit" class="btn btn-primary" data-toggle = "tooltip" data-placement = "right" title = "Press to consecutively place the same bet and spin."> Let's Go! </button>
   </form>
 </div>
-
-<div class = "row justify-content-center">
-  <div class="card" style = "width: 30rem; height: 18rem;">
-    <div class="card-body" style = "font-color: black;">
-      <div class="text-dark">
-        <h3> Instructions: </h3>
-        Getting three in a row gives you a win!<br><br>
-        Lemon: 1x your bet<br>
-        Cherry: 2x your bet<br>
-        Clover: 3x your bet<br>
-        Heart: 4x your bet<br>
-        Diamond: 5x your bet<br>
-        Dollars: 6x your bet<br>
-      </div>
-    </div>
-  </div>
-  <div class = "card" style = "width: 30rem; height: 18rem;">
-    <div class = "card-body">
-      <h2> <div class = "font-weight-bold" style = "color: red; size: 20px;"> Your Bet: ${{ bet }} </div> </h2>
-      <h2> <div class = "font-weight-bold" style = "color: red; size: 20px;"> Your Win: ${{ money }} </div> </h2>
-      <br>
-    </div>
-  </div>
-</div>
-<br>
-<div class = "container-fluid">
+<div class = "container-fluid w-75">
   <div class = "row">
     <div class = "text-center col-md-4" style = "border: 10px solid {{ colour }};">
       <div class = "mr-0.5">
@@ -59,5 +34,32 @@ Slot Machine
     </div>
   </div>
 </div>
+<br><br>
+<h2 class="text-dark">Results</h2>
+<div class = "row justify-content-center">
+  <div class="card" style = "width: 30rem; height: 18rem;">
+    <div class="card-body" style = "font-color: black;">
+      <div class="text-dark">
+        <h3> Instructions: </h3>
+        Getting three in a row gives you a win!<br><br>
+        Lemon: 1x your bet<br>
+        Cherry: 2x your bet<br>
+        Clover: 3x your bet<br>
+        Heart: 4x your bet<br>
+        Diamond: 5x your bet<br>
+        Dollars: 6x your bet<br>
+      </div>
+    </div>
+  </div>
+  <div class = "card" style = "width: 30rem; height: 18rem;">
+    <div class = "card-body">
+      <br><br>
+      <h2> <div class = "font-weight-bold text-success"> Your Bet: ${{ bet }} </div> </h2>
+      <h2> <div class = "font-weight-bold text-success"> Your Win: ${{ money }} </div> </h2>
+      <br>
+    </div>
+  </div>
+</div>
+<br>
 
 {% endblock %}
