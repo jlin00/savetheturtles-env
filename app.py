@@ -102,6 +102,12 @@ def home():
     '''home(): homepage checks if user is in session and gets info on user'''
     return render_template("home.html")
 
+@app.route("/profile")
+@login_required
+def profile():
+    '''profile(): allows user to update their profile and view their purchases'''
+    return render_template("profile.html")
+
 #====================================================
 #WORK HERE KIRAN
 
