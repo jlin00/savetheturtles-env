@@ -214,7 +214,7 @@ def blackjack():
         if cardtotal( game['player_cards'] ) > 21:
             flash('Bust!','alert-danger')
             game['mode'] = 'end'
-            # decrease_balance( game['bet'] )
+            db_manager.updateMoney( session['username'], -game['bet'] )
     elif 'stand' in request.form:
         game = session['blackjack']
         game['mode'] = 'end'
@@ -227,19 +227,19 @@ def blackjack():
             dealer_total = cardtotal( game['dealer_cards'] )
         if dealer_total > 21:
             flash('Dealer Bust! you win!','alert-success')
-            # increase_balance( game['bet'] )
+            db_manager.updateMoney( session['username'], game['bet'] )
         elif player_total > dealer_total:
             flash('You Win!','alert-success')
-            # increase_balance( game['bet'] )
+            db_manager.updateMoney( session['username'], game['bet'] )
         elif player_total == dealer_total:
             flash('Push (tie)','alert-info')
         else:
             flash('You lose.','alert-danger')
-            # increase_balance( game['bet'] )
+            db_manager.updateMoney( session['username'], -game['bet'] )
     elif 'bet' in request.form:
         # initialize a new game
         game = {}
-        game['bet'] = request.form['bet']
+        game['bet'] = int(request.form['bet'])
         game['deck'] = cards_api.newdeck()
         game['dealer_show'] = False
         game['dealer_cards'] = cards_api.drawcards(game['deck'],2)
