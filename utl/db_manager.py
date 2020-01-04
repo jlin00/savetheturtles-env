@@ -26,7 +26,7 @@ def addUser(username, password):
     inputs = (username,)
     data = execmany(q, inputs).fetchone()
     if (data is None):
-        q = "INSERT INTO user_tbl VALUES(?, ?, '', 500, 0, '')"
+        q = "INSERT INTO user_tbl VALUES(?, ?, '', 100000, 0, '')"
         inputs = (username, password)
         execmany(q, inputs)
         return True
