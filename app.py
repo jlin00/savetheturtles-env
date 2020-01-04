@@ -48,7 +48,7 @@ def login():
 @app.route("/auth", methods=["POST"])
 @no_login_required
 def auth():
-    '''auth(): authenticating login and flashing corresponding errors'''
+    '''def auth(): authenticating login and flashing corresponding errors'''
     enteredU = request.form['username']
     enteredP = request.form['password']
     if(enteredU == "" or enteredP == ""): #if fields empty
@@ -71,7 +71,7 @@ def signup():
 @app.route("/signupcheck", methods=["POST"])
 @no_login_required
 def signupcheck():
-    '''signupcheck(): Checking if sign up form is filled out correctly; i.e. username taken, passwords match, all fields filled out'''
+    '''def signupcheck(): Checking if sign up form is filled out correctly; i.e. username taken, passwords match, all fields filled out'''
     username = request.form['username']
     password = request.form['password']
     confirm = request.form['confirmation']
@@ -100,20 +100,20 @@ def signupcheck():
 @login_required
 def home():
     user = session['username']
-    '''home(): homepage checks if user is in session and gets info on user'''
+    '''def home(): homepage checks if user is in session and gets info on user'''
     return render_template("home.html", user=user, home="active")
 
 @app.route("/profile")
 @login_required
 def profile():
     user = session['username']
-    '''profile(): allows user to update their profile and view their purchases'''
+    '''def profile(): allows user to update their profile and view their purchases'''
     return render_template("profile.html", user=user, profile="active")
 
 @app.route("/resetpasswd", methods=["POST"])
 @login_required
 def password():
-    '''password(): backend of password changes, makes sure form is filled out correctly'''
+    '''def password(): backend of password changes, makes sure form is filled out correctly'''
     password = request.form['password']
     verif = request.form['verif']
     oldpass = request.form['oldpass']
@@ -139,9 +139,18 @@ def password():
 @app.route("/dice")
 @login_required
 def dice():
+    '''def dice(): allows user to place bet for dice game'''
     user = session['username']
-    '''dice(): allows user to play dice game'''
     return render_template("dice.html", user=user)
+
+@app.route("/diceplay", methods=["POST"])
+@login_required
+def diceplay():
+    '''def diceplay(): handles user bets and allows for dice gameplay'''
+    user = session['username']
+    bet = request.form['bet']
+    return redirect(url_for("dice"))
+
 
 #====================================================
 @app.route("/logout")
