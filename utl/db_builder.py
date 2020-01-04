@@ -24,7 +24,7 @@ def build_db():
     command = "CREATE TABLE IF NOT EXISTS user_tbl (username TEXT, password TEXT, pfp TEXT, money INT, time INT, boosts TEXT)"
     exec(command)
 
-    command = "CREATE TABLE IF NOT EXISTS texas_tbl (game_id INT, player TEXT, card1 TEXT, card2 TEXT, card3 TEXT, card4 TEXT, card5 TEXT, bet INT, folded INT)"
+    command = "CREATE TABLE IF NOT EXISTS texas_tbl (game_id TEXT, player TEXT, card1 TEXT, card2 TEXT, card3 TEXT, card4 TEXT, card5 TEXT, bet INT, folded INT)"
     exec(command)
 
     command = "CREATE TABLE IF NOT EXISTS chinese_tbl (game_id INT, player1 TEXT, player2 TEXT, player3 TEXT, player4 TEXT, played TEXT, up TEXT)"

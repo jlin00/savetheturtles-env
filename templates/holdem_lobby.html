@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+
+{% block title %}
+  Texas Hold'em | Lobby
+{% endblock %}
+
+{% block body %}
+  <!-- list games, and below display the create a game button -->
+  {% for game in games %}
+    <!-- for each game in `games`, show a card -->
+    <div class="card">
+      <p> a game! </p>
+    </div>
+  {% endfor %}
+  <button onclick="location.href='/holdem/create';" class="btn btn-success text-decoration-none text-white btn-link">
+    Create a Game
+  </button>
+  </form>
+  
+  
+{% endblock %}

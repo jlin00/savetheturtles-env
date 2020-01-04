@@ -1,0 +1,29 @@
+{% extends "_base.html" %}
+
+{% block title %}
+	Profile
+{% endblock %}
+
+{% block body %}
+<h1>Profile</h1>
+<br>
+<div class="card" style="align-text:center; display:flex; align-items:center;">
+  <h3>Change Your Password</h3>
+  <form action="/resetpasswd" method="post" class="w-50 p-3">
+    <div class="form-group">
+      <label for="password" class="font-weight-bold">New Password</label>
+      <input name="password" type="password" class="form-control" id="password">
+    </div>
+    <div class="form-group">
+      <label for="verif" class="font-weight-bold">Password Verification</label>
+      <input name="verif" type="password" class="form-control" id="password">
+    </div>
+    <div class="form-group">
+      <label for="oldpass" class="font-weight-bold">Old Password</label>
+      <input name="oldpass" type="password" class="form-control" id="oldpass">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Change Password</button>
+  </form><br>
+</div>
+{% endblock %}
