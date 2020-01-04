@@ -1,7 +1,7 @@
 from flask import Flask , render_template,request, redirect, url_for, session, flash
 from functools import wraps
 import sqlite3, os
-from utl import db_builder, db_manager
+from utl import db_builder, db_manager, cards_api
 import random
 
 app = Flask(__name__)
@@ -123,8 +123,10 @@ def holdem():
 @login_required
 def create_holdem():
     ''' def create_holdem(): create a new texas holdem game '''
-    
-    flash('game successfully created.','alert-info')
+    game_id = cards_api.newdeck()
+    board_cards = cards_api.drawcards(game_id,5)
+    db_manager.addplayer(game_id,'board',board_cards)
+    flash('game successfully created.','alert-success')
     return redirect(url_for('holdem'))
 #====================================================
 
