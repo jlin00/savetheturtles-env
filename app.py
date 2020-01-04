@@ -102,8 +102,9 @@ def signupcheck():
 @login_required
 def home():
     user = session['username']
+    money = db_manager.getMoney(user)
     '''def home(): homepage checks if user is in session and gets info on user'''
-    return render_template("home.html", user=user, home="active")
+    return render_template("home.html", user=user, home="active", money=money)
 
 @app.route("/profile")
 @login_required
@@ -132,7 +133,6 @@ def password():
     db_manager.changePass(username, password)
     flash("Password successfully changed!", 'alert-success')
     return redirect("/home")
-
 #====================================================
 #WORK HERE KIRAN
 
