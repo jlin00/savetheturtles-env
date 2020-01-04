@@ -18,6 +18,18 @@ Blackjack
   </form>
 {% endif %}
 {% if mode=="play" %}
-  <h6>soon to come: gameplay!</h6>
+  <h6>Dealer's Cards</h6>
+  <img src="/static/cardback.jpg" height="314px" width="226px" />
+  <img src={{game.dealer_cards[1].image}} />
+  <h6>Player's Cards</h6>
+  {% for card in game.player_cards %}
+  <img src={{card.image}} />
+  {% endfor %}
+  <br />
+  <form action="/blackjack" method="POST">
+    <button type="submit" name="hit" class="btn btn-primary">Hit</button>
+    <button type="submit" name="stand" class="btn btn-primary">Stand</button>
+  </form>
+    
 {% endif %} 
 {% endblock %}
