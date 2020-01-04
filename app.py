@@ -246,13 +246,17 @@ def blackjack():
         game = {}
         game['bet'] = int(request.form['bet'])
         game['deck'] = cards_api.newdeck()
-        game['dealer_show'] = False
         game['dealer_cards'] = cards_api.drawcards(game['deck'],2)
         game['player_cards'] = cards_api.drawcards(game['deck'],2)
-        game['mode'] = 'play'
         db_manager.updateMoney( session['username'], -game['bet'] )
         print(game)
-        flash('Game started. If you refresh or navigate away, your bet of ${} will be lost.'.format(game['bet']),'alert-info')
+        if cardtotal( game['player_cards'] ) == 21:
+            flash('Blackjack! You win 150% of your original bet.','alert-success')
+            db_manager.updateMoney( session['username'], 2.5 * game['bet'] )
+            game['mode'] = 'end'
+        else:
+            flash('Game started. If you refresh or navigate away, your bet of ${} will be lost.'.format(game['bet']),'alert-info')
+            game['mode'] = 'play'
     else:
         print("how did we get here?")
 
