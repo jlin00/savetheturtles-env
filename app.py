@@ -123,7 +123,9 @@ def holdem():
 @login_required
 def create_holdem():
     ''' def create_holdem(): create a new texas holdem game '''
-    pass
+    
+    flash('game successfully created.','alert-info')
+    return redirect(url_for('holdem'))
 #====================================================
 
 #====================================================
