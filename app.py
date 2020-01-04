@@ -133,13 +133,6 @@ def password():
     db_manager.changePass(username, password)
     flash("Password successfully changed!", 'alert-success')
     return redirect("/home")
-
-@app.route("/play")
-@login_required
-def play():
-    '''def play(): allows user to select a game to play'''
-    return render_template("play.html", play="active")
-
 #====================================================
 #WORK HERE KIRAN
 
