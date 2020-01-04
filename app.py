@@ -99,19 +99,49 @@ def signupcheck():
 @app.route("/home")
 @login_required
 def home():
+    user = session['username']
     '''home(): homepage checks if user is in session and gets info on user'''
-    return render_template("home.html")
+    return render_template("home.html", user=user, home="active")
 
 @app.route("/profile")
 @login_required
 def profile():
+    user = session['username']
     '''profile(): allows user to update their profile and view their purchases'''
-    return render_template("profile.html")
+    return render_template("profile.html", user=user, profile="active")
+
+@app.route("/resetpasswd", methods=["POST"])
+@login_required
+def password():
+    '''password(): backend of password changes, makes sure form is filled out correctly'''
+    password = request.form['password']
+    verif = request.form['verif']
+    oldpass = request.form['oldpass']
+    if (password == "" or verif == "" or oldpass == ""):
+        flash("Please fill out all fields!", 'alert-danger')
+        return redirect("/profile")
+    if (password != verif):
+        flash("Passwords do not match!", 'alert-danger')
+        return redirect("/profile")
+    username = session['username']
+    if (not db_manager.userValid(username, oldpass)):
+        flash("Wrong password!", 'alert-danger')
+        return redirect("/profile")
+    db_manager.changePass(username, password)
+    flash("Password successfully changed!", 'alert-success')
+    return redirect("/home")
 
 #====================================================
 #WORK HERE KIRAN
 
 #====================================================
+#WORK HERE JACKIE
+@app.route("/dice")
+@login_required
+def dice():
+    user = session['username']
+    '''dice(): allows user to play dice game'''
+    return render_template("dice.html", user=user)
 
 #====================================================
 @app.route("/logout")
