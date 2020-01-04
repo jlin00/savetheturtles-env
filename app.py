@@ -198,7 +198,7 @@ def cardtotal(cards):
         total -= 10
         aces -= 1
     return total
-        
+
 @app.route("/blackjack",methods=['GET'])
 @login_required
 def blackjack_bet():
@@ -357,7 +357,7 @@ def slot():
                 if rand1 == "diamond":
                     db_manager.updateMoney(session['username'], 5 * bet)
                     money = 5 * bet
-                if rand1 == "dollars":
+                if rand1 == "dollar":
                     db_manager.updateMoney(session['username'], 6 * bet)
                     money = 6 * bet
                 colour = "green"
