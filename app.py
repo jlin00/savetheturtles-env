@@ -100,7 +100,7 @@ def signupcheck():
 @login_required
 def home():
     '''home(): homepage checks if user is in session and gets info on user'''
-    return "HOME"
+    return render_template("home.html")
 
 #====================================================
 @app.route("/logout")
