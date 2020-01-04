@@ -1,0 +1,35 @@
+{% extends "_base.html" %}
+
+{% block title %}
+	Sign In
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block body %}
+  <h1> <font color ="#25383C"> Sign Up </font> </h1>
+
+  <div class="w-25 p-3">
+    <form action="/signupcheck" method="POST">
+      <div class="form-group">
+        <label for="username" class="font-weight-bold">Username </label>
+        <input name="username" type="text" class="form-control" id="username" value={{username}}>
+      </div>
+      <div class="form-group">
+        <label for="password" class="font-weight-bold">Password</label>
+        <input name="password" type="password" class="form-control" id="password" value={{password}}>
+      </div>
+      <div class="form-group">
+        <label for="confirm" class="font-weight-bold">Confirm Password</label>
+        <input name="confirmation" type="password" class="form-control" id="confirm" value={{confirm}}>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <br>
+    <form>
+      <input class="btn btn-link" type="button" onclick= "location.href='/login';" value = "Log In">
+    </form>
+  </div>
+{% endblock %}
