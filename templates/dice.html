@@ -5,4 +5,19 @@
 {% endblock %}
 
 {% block body %}
+<h1>Dice</h1>
+<div class="w-25 p-3">
+  <form action="/diceplay" method="POST">
+    <div class="form-group">
+      <label for="bet">Please place a bet from 100-1000:</label>
+      <input name="bet" type="number" class="form-control" id="bet" value="100" min="100" max="1000">
+    </div>
+    <br>
+    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/1.png" class="w-25">
+    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/2.png" class="w-25">
+    <img src="http://roll.diceapi.com/images/poorly-drawn/d6/3.png" class="w-25">
+    <br><br>
+    <button type="submit" class="btn btn-primary">Roll Dice</button>
+  </form>
+</div>
 {% endblock %}
