@@ -299,7 +299,11 @@ def diceH(dice, options):
             if dice[0] == num and dice[1] == num and dice[2] == num:
                 total_mult += 180
         else:
-            num = int(option[-1])
+            num = int(option[3:])
+            print("NUM IS: ")
+            print(num)
+            print("SUM IS: ")
+            print(sum)
             if sum == num:
                 total_mult += multiplier[num - 4]
     total_mult -= len(options)
