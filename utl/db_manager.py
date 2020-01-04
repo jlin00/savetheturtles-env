@@ -36,7 +36,7 @@ def addUser(username, password):
 #WORK HERE KIRAN 
 
 #texas_tbl (
-    #game_id INT,
+    #game_id TEXT,
     #player TEXT,
     #card1 TEXT,
     #card2 TEXT,
@@ -49,12 +49,27 @@ def addUser(username, password):
 
 def current_game(username):
     ''' def current_game(username): returns game id of a game the user has already entered, or 0 if they have not entered a game '''
-    q = "SELECT game_id,player FROM texas_tbl WHERE player = ?"
+    q = "SELECT game_id,player FROM texas_tbl WHERE player = ?;"
     v = (username,)
     data = execmany(q,v).fetchone()
     print(data)
     if(data):
         return data[0]
-    else:
-        return 0
+    return None
+
+def addplayer(game_id,name,cards):
+    ''' def addplayer(game_id,name,cards): adds player with game_id specified and with list of cards to texas tbl database '''
+    q = """
+INSERT INTO texas_tbl 
+    (game_id,player,bet,folded,card1,card2,card3,card4,card5)
+    VALUES(?, ?, 0, 0, ?, ?, ?, ?, ?);
+"""
+    values = [game_id,name]
+    for i in range(5):
+        if i < len(cards):
+            values += [ cards[i]['code'] ]
+        else:
+            values += [ '' ]
+    print(values)
+    execmany(q,values)
 #====================================================
