@@ -208,10 +208,32 @@ def blackjack_bet():
 def blackjack():
     if 'hit' in request.form:
         game = session['blackjack']
-        
+        newcard = cards_api.drawcards(game['deck'],1)
+        game['player_cards'] += newcard
+        if cardtotal( game['player_cards'] ) > 21:
+            flash('Bust!','alert-danger')
+            game['mode'] = 'end'
+            # decrease_balance( game['bet'] )
     elif 'stand' in request.form:
         game = session['blackjack']
         game['mode'] = 'end'
+        player_total = cardtotal( game['player_cards'] )
+        # play dealer's side
+        dealer_total = cardtotal( game['dealer_cards'] )
+        while total < 17:
+            game['player_cards'] += cards_api.drawcards(game['deck'],1)
+            dealer_total = cardtotal( game['dealer_cards'] )
+        if dealer_total > 21:
+            flash('Dealer Bust! you win!','alert-success')
+            # increase_balance( game['bet'] )
+        elif player_total > dealer_total:
+            flash('You Win!','alert-success')
+            # increase_balance( game['bet'] )
+        elif player_total == dealer_total:
+            flash('Push (tie)','alert-info')
+        else:
+            flash('You lose.','alert-danger')
+            # increase_balance( game['bet'] )
     elif 'bet' in request.form:
         # initialize a new game
         game = {}
