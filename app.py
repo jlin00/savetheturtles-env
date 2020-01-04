@@ -6,6 +6,7 @@ import random
 
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
+
 #====================================================
 def login_required(f):
     """Decorator for making sure user is logged in"""
@@ -110,6 +111,49 @@ def logout():
     session.clear()
     flash('You were successfully logged out.', 'alert-success')
     return redirect('/')
+
+
+@app.route("/slotmachine")
+@login_required
+def slot():
+    '''def slot(): placing and checking bets'''
+    print("here's bet")
+    if request.args.get('slotbet'):
+        bet = request.args.get('slotbet')
+        print(bet)
+        if bet == "" or int(bet) < 100:
+            bet = 100
+            flash("Please place a bet of $100 or more.", 'alert-danger')
+            return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], win = "No", colour = "yellow")
+        else:
+            bet = int(bet)
+            rand1 = random.choice(slotImages)
+            rand2 = random.choice(slotImages)
+            rand3 = random.choice(slotImages)
+            if rand1 == rand2 and rand2 == rand3:
+                win = rand1
+                colour = "red"
+            else:
+                win = "No"
+                colour = "yellow"
+            return render_template("slotmachine.html", primarybet = bet, bet = bet, image1 = dict[rand1], image2 = dict[rand2], image3 = dict[rand3], win = win, colour = colour)
+    else:
+        bet = 100
+        return render_template("slotmachine.html", primarybet = bet, bet = 0, image1 = dict[random.choice(slotImages)], image2 = dict[random.choice(slotImages)], image3 = dict[random.choice(slotImages)], win = "No", colour = "yellow")
+
+dict = {}
+slotImages = []
+file = open("slotimages.csv", "r") #opens second file with links
+content = file.readlines() #parse through files by line
+content = content[1:len(content)] #take out the table heading
+for line in content:
+    line = line.strip() #removes \n
+    line = line.split(",") #if line does not contain quotes, split by comma
+    dict[line[0]] = (line[1]) #key value pair
+    slotImages.append(line[0])
+# print(dict) #testing results
+file.close()
+
 
 if __name__ == "__main__":
     db_builder.build_db()
