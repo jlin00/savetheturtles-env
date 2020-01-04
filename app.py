@@ -150,7 +150,10 @@ def diceplay():
     user = session['username']
     bet = request.form['bet']
     return redirect(url_for("dice"))
-
+@app.route("/lottery")
+@login_required
+def lotto():
+    return render_template("lottery.html")
 
 #====================================================
 @app.route("/logout")

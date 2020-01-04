@@ -1,0 +1,65 @@
+{% extends "_base.html" %}
+<style>.box {
+  display: inline-block;
+  background: url("https://cloud.githubusercontent.com/assets/4652816/12771954/41dccb10-ca68-11e5-9db8-a473f51426c8.jpg");
+  background-size: cover;
+}
+
+canvas {
+  background: transparent;
+}
+</style>
+{% block title %}
+ Sractch Ticket
+{% endblock %}
+
+{% block body %}
+<div class="box">
+    <canvas id="canvas"></canvas>
+</div>
+<script type="text/javascript">
+  var url = 'static/lotto.jpg';
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  img.src = url;
+  img.onload = function () {
+    var width = Math.min(500, img.width);
+    var height = img.height * (width / img.width);
+
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(img, 0, 0, width, height);
+  };
+
+  var isPress = false;
+  var old = null
+  canvas.addEventListener('mousedown', function (e){
+    isPress = true;
+    old = {x: e.offsetX, y: e.offsetY};
+  });
+  canvas.addEventListener('mousemove', function (e){
+    if (isPress) {
+      var x = e.offsetX;
+      var y = e.offsetY;
+      ctx.globalCompositeOperation = 'destination-out';
+
+      ctx.beginPath();
+      ctx.arc(x, y, 10, 0, 2 * Math.PI);
+      ctx.fill();
+
+      ctx.lineWidth = 20;
+      ctx.beginPath();
+      ctx.moveTo(old.x, old.y);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+
+      old = {x: x, y: y};
+
+    }
+  });
+  canvas.addEventListener('mouseup', function (e){
+    isPress = false;
+  });
+</script>
+{% endblock %}
