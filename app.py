@@ -220,8 +220,9 @@ def blackjack():
         player_total = cardtotal( game['player_cards'] )
         # play dealer's side
         dealer_total = cardtotal( game['dealer_cards'] )
-        while total < 17:
-            game['player_cards'] += cards_api.drawcards(game['deck'],1)
+        while dealer_total < 17:
+            game['dealer_cards'] += cards_api.drawcards(game['deck'],1)
+            print('card drawn for dealer: ',game['dealer_cards'][-1]['code'])
             dealer_total = cardtotal( game['dealer_cards'] )
         if dealer_total > 21:
             flash('Dealer Bust! you win!','alert-success')
