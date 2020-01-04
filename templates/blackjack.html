@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+
+{% block title %}
+Blackjack
+{% endblock %}
+
+{% block body %}
+<h3>Blackjack</h3>
+
+{% if mode=="bet" %}
+<form action="/blackjack" method="POST">
+  <div class="form-group">
+    <label for="bet">Please place a bet from 100-1000:</label>
+    <input name="bet" type="number" class="form-control" id="bet" value="100" min="100" max="1000">
+  </div>
+  <br>
+    <button type="submit" class="btn btn-primary">Start Game</button>
+</form>
+{% endif %}
+{% if mode=="play" %}
+<h6>Dealer's Cards</h6>
+<img src="/static/cardback.jpg" height="314px" width="226px" />
+<img src={{game.dealer_cards[1].image}} />
+<h6>Your Cards</h6>
+{% for card in game.player_cards %}
+<img src={{card.image}} />
+{% endfor %}
+<br />
+<form action="/blackjack" method="POST">
+  <button type="submit" name="hit" class="btn btn-primary">Hit</button>
+  <button type="submit" name="stand" class="btn btn-primary">Stand</button>
+</form>
+
+{% endif %} 
+
+{% if mode=="end" %}
+<h6>Dealer's Cards</h6>
+{% for card in game.dealer_cards %}
+<img src={{card.image}} />
+{% endfor %}
+<h6>Your Cards</h6>
+{% for card in game.player_cards %}
+<img src={{card.image}} />
+{% endfor %}
+<br />
+<input class="btn btn-link btn-primary text-decoration-none text-white" type="button" onclick="location.href='/home'" value="Go Home" />
+<input class="btn btn-link btn-success text-decoration-none text-white" type="button" onclick="location.href='/blackjack'" value="Play Again" />
+{% endif %}
+
+{% endblock %}
