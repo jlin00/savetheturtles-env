@@ -2,7 +2,7 @@ from flask import Flask , render_template,request, redirect, url_for, session, f
 from functools import wraps
 import sqlite3, os
 from utl import db_builder, db_manager,cards_api
-import urllib3, json, urllib
+#import urllib3, json, urllib
 import random
 
 app = Flask(__name__)
@@ -283,7 +283,7 @@ def dice():
         if len(options) == 0 or not db_manager.checkBet(user, bet):
             flash("Please enter a valid bet and choose at least one betting option!", 'alert-danger')
             return redirect(url_for("dice"), code=303)
-        u = urllib.request.urlopen("http://roll.diceapi.com/json/3d6")
+        #u = urllib.request.urlopen("http://roll.diceapi.com/json/3d6")
         response = json.loads(u.read())['dice']
         dice = []
         for roll in response:

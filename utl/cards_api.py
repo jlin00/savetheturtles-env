@@ -1,4 +1,4 @@
-import urllib3, json
+#import urllib3, json
 
 NEWDECK = 'https://deckofcardsapi.com/api/deck/new/shuffle/'
 DRAWCARDS = 'https://deckofcardsapi.com/api/deck/{}/draw/'
@@ -8,7 +8,7 @@ class RequestException(Exception):
 
 def newdeck():
     ''' newdeck(): calls deck of cards API to create a new deck '''
-    http = urllib3.PoolManager()
+    #http = urllib3.PoolManager()
     response = http.request('GET',NEWDECK)
     data = json.loads(response.data.decode('utf-8'))
     if data and data['success']:
@@ -19,7 +19,7 @@ def newdeck():
 
 def drawcards(deck_id,n):
     ''' drawcards(): calls deck of cards API to draw n cards from the specified deck id '''
-    http = urllib3.PoolManager()
+    #http = urllib3.PoolManager()
     response = http.request(
         'GET',
         DRAWCARDS.format(deck_id),
