@@ -6,7 +6,7 @@
  -o-user-select: none;
  user-select: none;
  position: relative;
- cursor: url("../CoinMK8.png") 18 18, auto;
+ cursor: url("../gold.png") 0 18, auto;
 }
 .images{
   position: absolute;
