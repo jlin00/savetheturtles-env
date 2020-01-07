@@ -6,18 +6,19 @@
  -o-user-select: none;
  user-select: none;
  position: relative;
+ cursor: url("../CoinMK8.png") 18 18, auto;
 }
 .images{
   position: absolute;
   z-index: 1;
-  left:0;
   top:0;
+  right:0;
 }
 
 canvas {
   position: absolute;
-  left: 0;
   top: 0;
+  right:0;
   background: transparent;
   z-index: 3;
   user-select:none;
