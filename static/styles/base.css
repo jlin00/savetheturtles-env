@@ -15,6 +15,12 @@
   right:0;
 }
 
+.numbers{
+  position: absolute;
+  z-index: 2;
+  height:25px;
+  width:25px;
+}
 canvas {
   position: absolute;
   top: 0;
@@ -22,4 +28,13 @@ canvas {
   background: transparent;
   z-index: 3;
   user-select:none;
+}
+
+
+#rules{
+  background-color: #FFFFFF;
+  color: #808ECE;
+  position:absolute;
+  top:200px;
+  right:400px;
 }

@@ -6,7 +6,19 @@
 <div class="box">
   <image class="images" src="../static/scratch.jpg">
     <canvas id="canvas"></canvas>
+    {% for i in index %}
+    <image class="numbers" style="top:{{ypos[i]}};right:{{xpos[i]}};" src="../static/{{numbers[i]}}">
+    {% endfor %}
 </div>
+  <div class="card" id="rules" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Rules to Win!</h5>
+      <p class="card-text">In order to win a prize, scratch the card. For each row, if the three numbers form a sequence
+      (from left to right) that is a strictly increasing (1,1,2 for example doesn't count) sequence, you will win $10,000.
+      If any row has three of the same numbers, you will get $100,000. Get Scratching!</p>
+      <a href="#" class="btn btn-primary">Claim Prize!</a>
+    </div>
+  </div>
 <script type="text/javascript">
 var url = '../static/lotto.jpg';
 var canvas = document.getElementById('canvas');
@@ -51,22 +63,5 @@ canvas.addEventListener('mousemove', function (e){
 canvas.addEventListener('mouseup', function (e){
   isPress = false;
 });
-//var mouseX=0;
-//var mouseY=0;
-//var coins=document.getElementByClass("coins");
-//coins.addEventListener("mousemove",setMousePosition,false);
-//function setMousePosition(e){
-  //mouseX=e.clientX;
-  //mouseY=e.clientY;
-//}
-//document.getElementById('coins').addEventListener("click", () => coinCursor());
-//var coinCursor = function(){
-//  console.log("hiii");
-//  console.log(document.getElementById("cursor").classList.toggle('coin'))
-//  document.getElementById("cursor").classList.toggle('coin');
-//  console.log(document.getElementById("cursor").classList.toggle('coin'));
-
-//};
-
 </script>
 {% endblock %}
